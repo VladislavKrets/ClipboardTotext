@@ -12,13 +12,13 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
 public class DrawRect extends JPanel {
-    int x, y, x2, y2;
+    private int x, y, x2, y2;
     private Point prevPoint;
     private Point currentPoint;
-    TransparentWindow transparentWindow;
+    private TransparentWindow transparentWindow;
     private boolean clear = false;
 
-    DrawRect(TransparentWindow transparentWindow) {
+    public DrawRect(TransparentWindow transparentWindow) {
         x = y = x2 = y2 = 0; //
         this.transparentWindow = transparentWindow;
         setOpaque(false);
@@ -82,7 +82,7 @@ public class DrawRect extends JPanel {
             }
             String line = null;
             try {
-                line = Main.tesseract.doOCR(capture);
+                line = MainServer.tesseract.doOCR(capture);
             } catch (TesseractException tesseractException) {
                 tesseractException.printStackTrace();
             }

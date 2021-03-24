@@ -1,27 +1,17 @@
 package com.lollipop;
 
 import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import nu.pattern.OpenCV;
 import org.opencv.core.Core;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.stream.Collectors;
 
-public class Main {
+public class MainServer {
 
     static Tesseract tesseract;
-    static ServerSocket serverSocket;
 
     static {
         OpenCV.loadShared();
@@ -34,7 +24,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        serverSocket = new ServerSocket(9999);
+        ServerSocket serverSocket = new ServerSocket(9999);
         Socket socket;
         String result;
         TransparentWindow transparentWindow;
@@ -42,7 +32,6 @@ public class Main {
             socket = serverSocket.accept();
             result = new BufferedReader(new InputStreamReader(socket.getInputStream()))
                     .lines().collect(Collectors.joining("\n"));
-            System.out.println("Result " + result);
             if (result.equals("rus")) tesseract.setLanguage("rus");
             else tesseract.setLanguage("eng");
             socket.close();
@@ -50,7 +39,6 @@ public class Main {
             transparentWindow.add(new DrawRect(transparentWindow));
             transparentWindow.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
             transparentWindow.setVisible(true);
-            System.out.println("visible");
         }
     }
 
